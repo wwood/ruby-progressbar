@@ -39,8 +39,8 @@ class ProgressBar
   def fmt_bar
     bar_width = do_percentage * @terminal_width / 100
     sprintf("|%s%s|", 
-            @bar_mark * bar_width, 
-            " " *  (@terminal_width - bar_width))
+      @bar_mark * bar_width,
+      " " *  (@terminal_width - bar_width))
   end
 
   def fmt_percentage
@@ -159,6 +159,7 @@ class ProgressBar
   end
 
   def show_if_needed
+    return if @finished_p
     if @total.zero?
       cur_percentage = 100
       prev_percentage = 0
@@ -213,6 +214,7 @@ class ProgressBar
     @current = @total if @current > @total
     show_if_needed
     @previous = @current
+    finish if @current == @total and !finished?
   end
 
   def set (count)
